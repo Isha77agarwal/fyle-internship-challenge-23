@@ -1,5 +1,115 @@
-<div class="grid h-screen place-items-center">
-  <div class="font-bold text-3xl">
-    Fyle Internship Challenge
+<div class="grid place-items-center">
+  <!-- Search Bar -->
+  <form  class="flex w-2/3 justify-center my-9" [formGroup]="searchGroup">
+    <div class="flex justify-center w-full mx-10">
+      <input class="block w-1/2 h-10 m-1 rounded-md border-0 py-1.5 pl-2 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  focus:ring-2 focus:ring-inset focus:ring-sky-800 sm:text-sm sm:leading-6" type="text" placeholder="Username" formControlName="login">
+      <button [disabled]="searchGroup.invalid" class="block w-24 h-10 bg-sky-950 text-white rounded-md border-2 m-1 disabled:bg-gray-400 " (click)="search()">Search</button>
+    </div>
+  </form>
+
+  <!-- Profile Section -->
+  <div class="flex justify-center w-2/3">
+    <!-- Skeleton Loader -->
+    <div *ngIf="ProfileLoaded" class="flex flex-col w-1/2 justify-center">
+      <div class="flex">
+        <ngx-skeleton-loader class="w-1/5 m-1 " count="1" appearance="circle" animation="pulse" [theme]="{
+          height: '80px',
+          width: '80px',
+          'background-color':'rgb(209 213 219)'
+       }"></ngx-skeleton-loader>
+       <ngx-skeleton-loader class="w-4/5 m-1 ml-3 " count="1" appearance="line" animation="pulse" [theme]="{
+         height: '80px',
+         'background-color':'rgb(209 213 219)'
+       }"></ngx-skeleton-loader>
+      </div>
+      <div>
+        <ngx-skeleton-loader count="1" appearance="line" animation="pulse" [theme]="{
+          height: '30px',
+          'background-color':'rgb(209 213 219)'
+        }"></ngx-skeleton-loader>
+      </div>
+      <div>
+        <ngx-skeleton-loader count="1" appearance="line" animation="pulse" [theme]="{
+          height: '30px',
+          'background-color':'rgb(209 213 219)'
+        }"></ngx-skeleton-loader>
+      </div>
+      <div class="w-2/3">
+        <ngx-skeleton-loader count="1" appearance="line" animation="pulse" [theme]="
+        {
+          'background-color':'rgb(209 213 219)'
+        }"></ngx-skeleton-loader>
+      </div>
+    </div>
+    <!-- Display Profile -->
+    <div *ngIf="errorMessage.length == 0 && !ProfileLoaded && profile.login.length" class="flex w-2/3">
+      <div class="flex flex-col justify-center w-1/2 mr-3">
+        <img class="p-2 w-40 h-40 border-2 rounded-full border-slate-300	drop-shadow-md mx-10" alt="Profile Picture" src={{profile.avatar_url}}>
+        <div class="flex mt-4">
+          <ng-icon name="heroLink" class="text-xl mr-2 font-semibold"></ng-icon>
+          <a href={{profile.html_url}} class="block hover:underline font-semibold">{{profile.html_url}}</a>
+        </div>
+      </div>
+      <div class="flex flex-col justify-evenly w-full">
+        <p class="font-semibold tracking-wide text-2xl">{{profile.name}}</p>
+        <p class="line-clamp-3 text-slate-600	font-medium">{{profile.bio}}</p>
+        <div class="flex" *ngIf="profile.location != null">
+          <ng-icon name="ionLocation" class="text-2xl text-slate-800"></ng-icon>
+          <p class="ml-3 text-slate-700	font-medium">{{profile.location}}</p>
+        </div>
+      </div>
+    </div>
+    <!-- No Profile Found -->
+    <div *ngIf="errorMessage.length">
+        <p class="text-red-600 text-xl text-bold">No Profile Found</p>
+    </div>
   </div>
+
+  <!-- Repositiories Section -->
+  <div *ngIf="errorMessage.length == 0 && !ProfileLoaded && profile.public_repos > 0 else NoPublicRepos" class="grid place-items-center">
+    <h1 class="tracking-wide text-xl font-semibold text-orange-700 mt-10">Public Repositiories</h1>
+    <div class="w-1/2 flex justify-center m-4">
+      <!-- <mat-form-field>
+        <mat-select [(value)]="perPage">
+          <mat-option>None</mat-option>
+          <mat-option value="1"> 1</mat-option>
+          <mat-option value="option2">Option 2</mat-option>
+          <mat-option value="option3">Option 3</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+      <label for="perPage" class="text-xl text-slate-700 font-semibold">Number of Repositiories Per Page :</label>
+      <select name="perPage" id="perPage" (change)="onChange($event)" class="block w-1/3 border-2 rounded h-10 ml-3 text-slate-600">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+    <div class="flex justify-evenly w-full flex-wrap mt-5">
+      <div *ngFor="let repository of repositories">
+        <div class="w-96 h-48 m-4 p-3 border-2 border-sky-900 rounded-md flex flex-col justify-around">
+          <a href={{repository.html_url}} class="text-2xl tracking-wide text-sky-600 font-medium hover:text-sky-800">{{repository.name}}</a>
+          <p class="line-clamp-2 text-slate-700 text-md mt-5">{{repository.description}}</p>
+          <div class="flex flex-wrap">
+            <div *ngFor="let topic of repository.topics" class="bg-sky-500 text-white m-1 p-2 rounded-md">
+              {{topic}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Pagination Section -->
+    <div class="w-2/3 flex justify-around my-5">
+      <button (click)="onnClickPrevious()" [disabled]="pageNumber == 1" class="bg-sky-500 text-white font-medium p-2 rounded-md hover:bg-sky-600 disabled:bg-gray-400 ">
+        << Previous
+      </button>
+      <button (click)="onClickNext()" [disabled]="pageNumber == totalPages" class="bg-sky-500 text-white font-medium p-2 rounded-md hover:bg-sky-600 disabled:bg-gray-400 ">
+        Next >>
+      </button>
+    </div>
+  </div>
+  <ng-template #NoPublicRepos>
+    <p *ngIf="profile.login.length > 0" class="tracking-wide text-xl font-semibold text-orange-700 mt-10">No Public Repositiories</p>
+  </ng-template>
+  
 </div>
