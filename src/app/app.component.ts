@@ -44,7 +44,7 @@ export class AppComponent implements OnInit{
     if(this.searchGroup.valid) {
       this.ProfileLoaded = true
       this.repositories = []
-
+      this.profile.login = ""
       //load github profile
       this.apiService.getUser(this.searchGroup.value.login).subscribe({
         next: (profile) => {
