@@ -1,0 +1,8 @@
+<div class="grid place-items-center">
+    <form  class="flex w-2/3 justify-center my-9" [formGroup]='searchGroup'>
+        <div class="flex justify-center w-full mx-10">
+          <input class="block w-1/2 h-10 m-1 rounded-md border-0 py-1.5 pl-2 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  focus:ring-2 focus:ring-inset focus:ring-sky-800 sm:text-sm sm:leading-6" type="text" placeholder="Username" formControlName="login">
+          <button [disabled]="searchGroup.invalid" class="block w-24 h-10 bg-sky-950 text-white rounded-md border-2 m-1 disabled:bg-gray-400 " (click)="sendLoginId()">Search</button>
+        </div>
+    </form>
+</div>

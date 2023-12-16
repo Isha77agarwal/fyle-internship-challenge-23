@@ -1,0 +1,8 @@
+<div class="w-full flex justify-around my-5">
+    <button (click)="onClickPrevious()" [disabled]="pageNumber == 1" class="bg-sky-500 text-white font-medium p-2 rounded-md hover:bg-sky-600 disabled:bg-gray-400 ">
+        << Previous
+    </button>
+    <button (click)="onClickNext()" [disabled]="pageNumber == totalPages" class="bg-sky-500 text-white font-medium p-2 rounded-md hover:bg-sky-600 disabled:bg-gray-400 ">
+        Next >>
+    </button>
+</div>

@@ -1,0 +1,42 @@
+<div class="grid place-items-center">
+    <div *ngIf="profileLoaded" class="flex flex-col w-1/2 justify-center">
+        <div class="flex">
+          <ngx-skeleton-loader class="w-1/5 m-1 " count="1" appearance="circle" animation="pulse" [theme]="{
+            height: '80px',
+            width: '80px',
+            'background-color':'rgb(209 213 219)'
+         }"></ngx-skeleton-loader>
+         <ngx-skeleton-loader class="w-4/5 m-1 ml-3 " count="1" appearance="line" animation="pulse" [theme]="{
+           height: '80px',
+           'background-color':'rgb(209 213 219)'
+         }"></ngx-skeleton-loader>
+        </div>
+        <div>
+          <ngx-skeleton-loader count="1" appearance="line" animation="pulse" [theme]="{
+            height: '30px',
+            'background-color':'rgb(209 213 219)'
+          }"></ngx-skeleton-loader>
+        </div>
+        <div>
+          <ngx-skeleton-loader count="1" appearance="line" animation="pulse" [theme]="{
+            height: '30px',
+            'background-color':'rgb(209 213 219)'
+          }"></ngx-skeleton-loader>
+        </div>
+        <div class="w-2/3">
+          <ngx-skeleton-loader count="1" appearance="line" animation="pulse" [theme]="
+          {
+            'background-color':'rgb(209 213 219)'
+          }"></ngx-skeleton-loader>
+        </div>
+      </div>
+      <div *ngIf="repositoriesLoaded" >
+        <div class="w-full">
+          Loading Repositiories
+          <ngx-skeleton-loader  class="w-full" count="3" appearance="line" animation="pulse" [theme]="{
+            height: '30px',
+            'background-color':'rgb(209 213 219)'
+          }"></ngx-skeleton-loader>
+        </div>
+      </div>
+</div>

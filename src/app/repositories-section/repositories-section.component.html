@@ -1,0 +1,28 @@
+<div class="grid place-items-center">
+    <div *ngIf="errorMessage.length == 0 && !profileLoaded && profile.public_repos > 0 else NoPublicRepos" class="w-full grid place-items-center">
+        <h1 class="tracking-wide text-xl font-semibold text-orange-700 mt-10">Public Repositiories</h1>
+        <div class="w-1/2 flex justify-center m-4">
+          <label for="perPage" class="text-xl text-slate-700 font-semibold">Number of Repositiories Per Page :</label>
+          <select name="perPage" id="perPage" (change)="onChangePerPageNumber($event)" class="block w-1/3 border-2 rounded h-10 ml-3 text-slate-600">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <app-skeleton-loader [repositoriesLoaded]="repositoriesLoaded"></app-skeleton-loader>
+        <div class="flex justify-evenly w-full flex-wrap mt-5">
+          <div  *ngFor="let repository of repositories">
+            <app-repository [repository]="repository"></app-repository>
+          </div>
+        </div>
+        <!-- Pagination Section --> 
+        <div class="w-full mt-5">
+            <app-pagination-section [totalPages] = 'totalPages' (changePageNumberEvent)="onChangePageNumber($event)"></app-pagination-section>
+        </div>
+        
+      </div>
+    <ng-template #NoPublicRepos>
+        <p *ngIf="profile.login.length > 0" class="tracking-wide text-xl font-semibold text-orange-700 mt-10">No Public Repositiories</p>
+    </ng-template>
+</div>

@@ -10,10 +10,23 @@ import { heroLink } from '@ng-icons/heroicons/outline';
 import { ionLocation } from '@ng-icons/ionicons';
 import {MatSelectModule} from '@angular/material/select';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { SkeletonLoaderComponent } from './skeleton-loader/skeleton-loader.component';
+import { ProfileSectionComponent } from './profile-section/profile-section.component';
+import { RepositoryComponent } from './repository/repository.component';
+import { SearchSectionComponent } from './search-section/search-section.component';
+import { RepositoriesSectionComponent } from './repositories-section/repositories-section.component';
+import { PaginationSectionComponent } from './pagination-section/pagination-section.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SkeletonLoaderComponent,
+    ProfileSectionComponent,
+    RepositoryComponent,
+    SearchSectionComponent,
+    RepositoriesSectionComponent,
+    PaginationSectionComponent
   ],
   imports: [
     BrowserModule,
